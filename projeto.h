@@ -25,8 +25,8 @@ typedef struct info_var_node
 typedef struct pais_node
 {
     char nome_pais[100];
-    char codigo_pais[3];
-    char continente[7];
+    char codigo_pais[4];
+    char continente[10];
     int populacao;
     struct pais_node *next;
     struct info_var_node *head_info_var;

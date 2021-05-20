@@ -18,18 +18,23 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
     pais_node *head = NULL;
     char pais_atual[100] ;
     pais_atual[0] = '\0';
-    char coluna_country[] = "country"; 
+    int n_linha = 0;
+    
+     
 
     while(fgets(linhaDados, 200, ficheiro) != NULL)
     {
         char *obtemNomePais = strtok(linhaDados, ",");
 
-        if((strcmp(pais_atual, obtemNomePais) != 0) && (strcmp(obtemNomePais, "country") != 0)){
+        if((strcmp(pais_atual, obtemNomePais) != 0) && (n_linha != 0)){
+
+            //============================== PAIS ===================================================
 
             pais_node *pais_a_inserir = malloc(sizeof(pais_node));
             
             strcpy(pais_a_inserir -> nome_pais, obtemNomePais);
             strcpy(pais_atual, obtemNomePais);
+
             char *obtemCodigo = strtok(NULL, ",");
             strcpy(pais_a_inserir -> codigo_pais, obtemCodigo);
 
@@ -37,20 +42,47 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
             strcpy(pais_a_inserir -> continente, obtemContinente);
 
             char *obtemPopulacao = strtok(NULL, ",");
-
             int populacao;
             sscanf(obtemPopulacao, "%d", &populacao);
             //sprintf(populacao, "%d", pais_a_inserir->populacao); //transforma int em char
             //strcpy(populacao, obtemPopulacao);
 
-            tail_lista_paises = adiciona_no_Fim_Pais(head_listaPaises, tail_lista_paises, obtemNomePais, pais_a_inserir->codigo_pais, obtemContinente, populacao);
+            //====================== VARIÁVEL ========================================================================================
+
+            info_var_node * info_var_inserir = malloc(sizeof(info_var_node));
+
+            char *obtemIndicador = strtok(NULL, ",");
+            strcopy(info_var_inserir -> indicador, obtemIndicador);
+
+            char *obtemContagemSemanal = strtok(NULL, ",");
+            int contagem_semanal;
+            sscanf(obtemContagemSemanal, "%d", &contagem_semanal);
+
+            char *obtemAnoSemana = strtok(NULL, ",");
+            strcopy(info_var_inserir -> ano_semana, obtemAnoSemana);
+
             
 
+            
+            
+
+            
+
+            double *obtemRacio = strtok(NULL, ",");
+            strcopy(info_var_inserir -> ano_semana, obtemAnoSemana);
+
+            char *obtemContaCumulativa = strtok(NULL, ",");
+            strcopy(info_var_inserir -> conta_cumulativa, obtemContaCumulativa);
+
+
+
+            tail_lista_paises = adiciona_no_Fim_Pais(head_listaPaises, tail_lista_paises, obtemNomePais, obtemCodigo, obtemContinente, populacao);
 
         }
         else{
             
         }
+        n_linha++;
     }
     //fclose(ficheiro_a_Ler);
 }
@@ -70,10 +102,6 @@ pais_node* adiciona_no_Fim_Pais(pais_node *head, pais_node *tail, char* nome, ch
     strcpy(temp -> continente, continente);
     temp -> populacao = populacao;
     temp -> next = NULL;
-    printf("\nPais: %s", temp->nome_pais);
-    printf("\nCodigo: %s", temp->codigo_pais);
-    printf("\nPopulação %d", temp->populacao);
-
 
     return temp;
 }
