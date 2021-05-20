@@ -43,7 +43,7 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
             //sprintf(populacao, "%d", pais_a_inserir->populacao); //transforma int em char
             //strcpy(populacao, obtemPopulacao);
 
-            tail_lista_paises = adiciona_no_Fim_Pais(head_listaPaises, tail_lista_paises, obtemNomePais, obtemCodigo, obtemContinente, populacao);
+            tail_lista_paises = adiciona_no_Fim_Pais(head_listaPaises, tail_lista_paises, obtemNomePais, pais_a_inserir->codigo_pais, obtemContinente, populacao);
             
 
 
@@ -78,15 +78,15 @@ pais_node* adiciona_no_Fim_Pais(pais_node *head, pais_node *tail, char* nome, ch
     return temp;
 }
 
-void adiciona_no_Fim_Info_Var(info_var_node *head, info_var_node *tail, char* , int, ){
-    info_var_node *temp = (info_var_node*)malloc(sizeof(info_var_node));
+void adiciona_no_Fim_Info_Var(info_var_node *head, info_var_node *tail, char* indicador , int *contagem_semanal, char *ano_semana, double *racio_14, int *conta_cumulativa){
+    info_var_node *temp_var = (info_var_node*)malloc(sizeof(info_var_node));
     if(tail != NULL){
-        tail->next_info_var = temp;
+        tail->next_info_var = temp_var;
     }
     else{
-        head = temp;
+        head = temp_var;
     }
-    tail = temp;
+    tail = temp_var;
 }
 
 int main(){
