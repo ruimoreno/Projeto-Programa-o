@@ -1,36 +1,4 @@
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#define INDICADOR_CASES
-#define INDICADOR_DEATHS
-
-
-typedef struct 
-{
-    char indicador[6];
-    int contagem_semanal;
-    char ano_semana[8];
-    double racio_14_dias;
-    int conta_cumulativa;
-    struct info_var_node *next_info_var;
-
-} info_var_node;
-
-
-typedef struct pais_node
-{
-    char nome_pais[100];
-    char codigo_pais[3];
-    char continente[7];
-    int populacao;
-    struct pais_node *next;
-    struct info_var_node *head_info_var;
-
-} pais_node;
-
-
+#include "projeto.h"
 
 int nLinhasFicheiro = 0;
 pais_node *head_listaPaises = NULL; 
@@ -74,7 +42,7 @@ void leFicheiro_Paises(char ficheiro_a_Ler[50]){
             sprintf(populacao, "%d", pais_a_inserir->populacao); //transforma int em char
             strcpy(populacao, obtemPopulacao);
 
-            &tail_lista_paises = adiciona_no_Fim_Pais(head_listaPaises, tail_lista_paises, obtemNomePais, obtemCodigo, obtemContinente, obtemPopulacao);
+            tail_lista_paises = adiciona_no_Fim_Pais(head_listaPaises, tail_lista_paises, obtemNomePais, obtemCodigo, obtemContinente, obtemPopulacao);
             
 
 
@@ -106,7 +74,7 @@ pais_node* adiciona_no_Fim_Pais(pais_node *head, pais_node *tail, char* nome[100
 void adiciona_no_Fim_Info_Var(info_var_node *tail, info_var_node *head){
     pais_node *temp = (info_var_node*)malloc(sizeof(info_var_node));
     if(tail != NULL){
-        tail->next = temp;
+        tail->next_info_var = temp;
     }
     else{
         head = temp;
