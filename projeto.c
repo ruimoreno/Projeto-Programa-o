@@ -18,18 +18,18 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
     pais_node *head = NULL;
     char pais_atual[100] ;
     pais_atual[0] = '\0';
+    char coluna_country[] = "country"; 
 
     while(fgets(linhaDados, 200, ficheiro) != NULL)
     {
         char *obtemNomePais = strtok(linhaDados, ",");
 
-        if(pais_atual[0] == '0' || strcmp(pais_atual, obtemNomePais) != 0){
+        if((strcmp(pais_atual, obtemNomePais) != 0) && (strcmp(obtemNomePais, "country") != 0)){
 
             pais_node *pais_a_inserir = malloc(sizeof(pais_node));
             
             strcpy(pais_a_inserir -> nome_pais, obtemNomePais);
             strcpy(pais_atual, obtemNomePais);
-            printf("\nPais: %s\n", pais_atual);
             char *obtemCodigo = strtok(NULL, ",");
             strcpy(pais_a_inserir -> codigo_pais, obtemCodigo);
 
@@ -49,10 +49,10 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
 
         }
         else{
-            //adicionar apenas informação variável
+            
         }
     }
-    fclose(ficheiro);
+    //fclose(ficheiro_a_Ler);
 }
 
 pais_node* adiciona_no_Fim_Pais(pais_node *head, pais_node *tail, char* nome, char*codigo, char* continente, int populacao){
@@ -70,10 +70,15 @@ pais_node* adiciona_no_Fim_Pais(pais_node *head, pais_node *tail, char* nome, ch
     strcpy(temp -> continente, continente);
     temp -> populacao = populacao;
     temp -> next = NULL;
+    printf("\nPais: %s", temp->nome_pais);
+    printf("\nCodigo: %s", temp->codigo_pais);
+    printf("\nPopulação %d", temp->populacao);
+
+
     return temp;
 }
 
-void adiciona_no_Fim_Info_Var(info_var_node *tail, info_var_node *head){
+void adiciona_no_Fim_Info_Var(info_var_node *head, info_var_node *tail, char* , int, ){
     info_var_node *temp = (info_var_node*)malloc(sizeof(info_var_node));
     if(tail != NULL){
         tail->next_info_var = temp;
@@ -88,7 +93,7 @@ int main(){
 
     pais_node *head_listaPaises = NULL; 
     pais_node *tail_lista_paises = head_listaPaises;
-
+    
 
     
     leFicheiro_Paises("dadosCovid.csv");
