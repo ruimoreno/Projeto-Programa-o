@@ -35,7 +35,7 @@ typedef struct pais_node
 
 
 
-void leFicheiro_Paises(char ficheiro_a_Ler[50]);
-pais_node* adiciona_no_Fim_Pais(pais_node *head, pais_node *tail, char* nome[100], char* codigo[4], char* continente[7], int* populacao);
+void leFicheiro_Paises(char *ficheiro_a_Ler);
+pais_node* adiciona_no_Fim_Pais(pais_node *head, pais_node *tail, char* nome, char* codigo, char* continente, int populacao);
 void adiciona_no_Fim_Info_Var(info_var_node *tail, info_var_node *head);
 #endif //PROJETO INCLUDED
