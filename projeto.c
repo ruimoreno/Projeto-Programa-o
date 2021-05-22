@@ -122,8 +122,8 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
             int conta_cumulativa;
             sscanf(obtemContaCumulativa, "%d", &conta_cumulativa);
 
-            info_var_inserir = adiciona_no_Fim_Info_Var(head_list_info_var, tail_list_info_var, obtemIndicador, obtemContagemSemanal, obtemAnoSemana, obtemRacio, obtemContaCumulativa);
-            tail_lista_paises -> head_info_var = info_var_inserir;
+            tail_list_info_var = adiciona_no_Fim_Info_Var(head_list_info_var, tail_list_info_var, obtemIndicador, obtemContagemSemanal, obtemAnoSemana, obtemRacio, obtemContaCumulativa);
+            tail_lista_paises -> head_info_var = tail_list_info_var;
          }
         else{
 
@@ -150,7 +150,7 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
             int conta_cumulativa;
             sscanf(obtemContaCumulativa, "%d", &conta_cumulativa);
 
-            info_var_inserir = adiciona_no_Fim_Info_Var(head_list_info_var, tail_list_info_var, obtemIndicador, obtemContagemSemanal, obtemAnoSemana, obtemRacio, obtemContaCumulativa);
+            tail_list_info_var = adiciona_no_Fim_Info_Var(head_list_info_var, tail_list_info_var, obtemIndicador, obtemContagemSemanal, obtemAnoSemana, obtemRacio, obtemContaCumulativa);
             
         }
         n_linha++;
@@ -164,7 +164,7 @@ pais_node* adiciona_no_Fim_Pais(pais_node *head, pais_node *tail, char* nome, ch
         tail->next = temp;
     }
     else{
-        head = temp;
+        head_listaPaises = temp;
 
     }
     tail = temp;
@@ -178,7 +178,7 @@ pais_node* adiciona_no_Fim_Pais(pais_node *head, pais_node *tail, char* nome, ch
     return temp;
 }
 
-info_var_node* adiciona_no_Fim_Info_Var(info_var_node *head, info_var_node *tail, char* indicador , int *contagem_semanal, char *ano_semana, double *racio_14, int *conta_cumulativa){
+info_var_node* adiciona_no_Fim_Info_Var(info_var_node *head, info_var_node *tail, char* indicador , int contagem_semanal, char *ano_semana, double racio_14, int conta_cumulativa){
     
     info_var_node *temp_var = (info_var_node*)malloc(sizeof(info_var_node));
     if(tail != NULL){
