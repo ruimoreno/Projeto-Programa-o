@@ -6,55 +6,7 @@ pais_node *tail_lista_paises = NULL;
 info_var_node *tail_list_info_var = NULL;
 info_var_node *head_list_info_var = NULL;
 
-void leFicheiro_Paises_Continente(char *ficheiro_a_Ler){
 
-    FILE * ficheiro;
-    ficheiro = fopen(ficheiro_a_Ler, "r");
-    if (ficheiro == NULL) {
-        printf("O ficheiro não foi aberto com sucesso, a terminar o programa...");
-        exit(-1);
-    }
-
-    char linhaDados[200];
-    pais_node *head = NULL;
-    char pais_atual[100] ;
-    pais_atual[0] = '\0';
-    int n_linha = 0;
-    char nome_do_continente[] = "Europe";
-    printf("\nNome do Continente: %s\n", nome_do_continente);
-    while(fgets(linhaDados, 200, ficheiro) != NULL)
-    {
-        char *obtemNomePais = strtok(linhaDados, ",");
-
-        if((strcmp(pais_atual, obtemNomePais) != 0) && (n_linha != 0)){
-
-            //============================== PAIS ===================================================
-
-            pais_node *pais_a_inserir = malloc(sizeof(pais_node));
-            
-            char *obtemCodigo = strtok(NULL, ",");
-            
-            char *obtemContinente = strtok(NULL, ",");
-            
-            
-            if(!strcmp(obtemContinente, nome_do_continente)){
-                strcpy(pais_a_inserir -> nome_pais, obtemNomePais);
-                strcpy(pais_atual, obtemNomePais);
-                strcpy(pais_a_inserir -> codigo_pais, obtemCodigo);
-                strcpy(pais_a_inserir -> continente, obtemContinente);
-                char *obtemPopulacao = strtok(NULL, ",");
-                int populacao;
-                sscanf(obtemPopulacao, "%d", &populacao);
-                printf("\nNome do País:%s \nCódigo:%s\n", pais_a_inserir->nome_pais, pais_a_inserir->codigo_pais);
-            }
-        }
-        else{
-            
-        }
-        n_linha++;
-    }
-    //fclose(ficheiro_a_Ler);
-}
 
 void leFicheiro_Paises(char *ficheiro_a_Ler){
 
@@ -67,7 +19,7 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
 
     char linhaDados[200];
     pais_node *head = NULL;
-    char pais_atual[100] ;
+    char pais_atual[100];
     pais_atual[0] = '\0';
     int n_linha = 0;
     
@@ -97,9 +49,9 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
             sscanf(obtemPopulacao, "%d", &populacao);
             //sprintf(populacao, "%d", pais_a_inserir->populacao); //transforma int em char
             //strcpy(populacao, obtemPopulacao);
-
+          
             tail_lista_paises = adiciona_no_Fim_Pais(head_listaPaises, tail_lista_paises, obtemNomePais, obtemCodigo, obtemContinente, populacao);
-
+            
             //====================== VARIÁVEL ========================================================================================
 
             info_var_node * info_var_inserir = malloc(sizeof(info_var_node));
@@ -114,21 +66,23 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
             char *obtemAnoSemana = strtok(NULL, ",");
             strcpy(info_var_inserir -> ano_semana, obtemAnoSemana);
 
-            char *obtemRacio = strtok(NULL, ",");
+            char *obtemRacio = strtok(NULL, ",");          //AQUI DA ERRO PORQUE O RACIO ESTA VAZIO, RESULTANDO EM VALORES ERRADOS E NUM SEG
             double racio_14;
-            sscanf(obtemRacio, "%d", &racio_14);
+            sscanf(obtemRacio, "%lf", &racio_14);
+            
 
-            char *obtemContaCumulativa = strtok(NULL, ",");
+            char *obtemContaCumulativa = strtok(NULL, "\n");
             int conta_cumulativa;
             sscanf(obtemContaCumulativa, "%d", &conta_cumulativa);
 
-            tail_list_info_var = adiciona_no_Fim_Info_Var(head_list_info_var, tail_list_info_var, obtemIndicador, obtemContagemSemanal, obtemAnoSemana, obtemRacio, obtemContaCumulativa);
+            tail_list_info_var = adiciona_no_Fim_Info_Var(head_list_info_var, tail_list_info_var, obtemIndicador, contagem_semanal, obtemAnoSemana, racio_14, conta_cumulativa);
             tail_lista_paises -> head_info_var = tail_list_info_var;
-         }
-        else{
+        }
+
+        else if (n_linha != 0)
+        {
 
             info_var_node * info_var_inserir = malloc(sizeof(info_var_node));
-            strtok(NULL, ",");
             strtok(NULL, ",");
             strtok(NULL, ",");
             strtok(NULL, ",");
@@ -144,16 +98,16 @@ void leFicheiro_Paises(char *ficheiro_a_Ler){
 
             char *obtemRacio = strtok(NULL, ",");
             double racio_14;
-            sscanf(obtemRacio, "%d", &racio_14);
+            sscanf(obtemRacio, "%lf", &racio_14);
 
-            char *obtemContaCumulativa = strtok(NULL, ",");
+            char *obtemContaCumulativa = strtok(NULL, "\n");
             int conta_cumulativa;
             sscanf(obtemContaCumulativa, "%d", &conta_cumulativa);
 
-            tail_list_info_var = adiciona_no_Fim_Info_Var(head_list_info_var, tail_list_info_var, obtemIndicador, obtemContagemSemanal, obtemAnoSemana, obtemRacio, obtemContaCumulativa);
-            
+            tail_list_info_var-> next_info_var = adiciona_no_Fim_Info_Var(head_list_info_var, tail_list_info_var, obtemIndicador, contagem_semanal, obtemAnoSemana, racio_14, conta_cumulativa);
         }
         n_linha++;
+
     }
     //fclose(ficheiro_a_Ler);
 }
@@ -167,14 +121,14 @@ pais_node* adiciona_no_Fim_Pais(pais_node *head, pais_node *tail, char* nome, ch
         head_listaPaises = temp;
 
     }
-    tail = temp;
+
     strcpy(temp -> nome_pais, nome);
     strcpy(temp -> codigo_pais, codigo);
     strcpy(temp -> continente, continente);
     temp -> populacao = populacao;
     temp -> next = NULL;
+    tail = temp;
     
-
     return temp;
 }
 
@@ -203,8 +157,13 @@ int main(){
     pais_node *head_listaPaises = NULL; 
     pais_node *tail_lista_paises = head_listaPaises;
     info_var_node *head_list_info_var = NULL;
-    info_var_node *tail_list_info_var = NULL;
-    
+    info_var_node *tail_list_info_var = head_list_info_var;
+    char* continente_Eur = "Europe";
+    char* continente_Ame = "America";
+    char* continente_Oce = "Oceania";
+    char* continente_Afr = "Africa";
+    char* continente_Asi = "Asia";
 
     leFicheiro_Paises("dadosCovid.csv");
+
 }
